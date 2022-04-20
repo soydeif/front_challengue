@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import Transition from '../../../app-frontend/src/utils/Transition';
+import Transition from '../utils/Transition';
 
 function DropdownFilter({
   align
