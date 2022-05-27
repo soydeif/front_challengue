@@ -10,12 +10,15 @@ function Header() {
 
           {/* Header: Left side */}
           <div className="flex">
+            
           </div>
 
           {/* Header: Right side */}
           <div className="flex items-center space-x-3">
-            {/* Suggested space for translation flags */}...
+            {/* Suggested space for translation flags */}
 
+              <button className='rounded-full ring-2 bg-blue-300 text-gray'>EN</button>
+              <button className='rounded-full ring-2 bg-red-600 text-white'>ES</button>
           </div>
 
         </div>

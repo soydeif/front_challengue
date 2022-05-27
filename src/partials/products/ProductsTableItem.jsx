@@ -48,20 +48,21 @@ function ProductsTableItem(props) {
   return (
     <tr>
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
-        <div className="font-medium text-sky-500">{props.product}</div>
+        <div className="font-medium text-sky-500 ">{props.sku}</div>
       </td>    
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
-        <div className={`font-medium ${totalColor(props.status)}`}>{props.total}</div>
+        <div className={`font-medium ${totalColor(props.status)}`}>{props.title}</div>
       </td>
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
-        <div className={`inline-flex font-medium rounded-full text-center px-2.5 py-0.5 ${statusColor(props.status)}`}>{props.status}</div>
+        <div className={`inline-flex font-medium rounded-full text-center px-2.5 py-0.5 ${statusColor(props.status)}`}>{props.stock}</div>
       </td >    
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
-        <div className="font-medium text-slate-800">{props.customer}</div>
+        <div className="font-medium text-slate-800">{props.tax}</div>
       </td>
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
-        <div>{props.issueddate}</div>
+        <div>{props.price}</div>
       </td>
+     {/*
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
         <div>{props.paiddate}</div>
       </td>
@@ -71,6 +72,7 @@ function ProductsTableItem(props) {
           <div>{props.type}</div>
         </div>
       </td>
+     */}
     </tr>
   );
 }

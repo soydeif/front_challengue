@@ -18,10 +18,10 @@ function PaginationNumeric() {
               <span className="inline-flex items-center justify-center rounded-l leading-5 px-3.5 py-2 bg-white border border-slate-200 text-blue-500">1</span>
             </li>
             <li>
-              <a className="inline-flex items-center justify-center leading-5 px-3.5 py-2 bg-white hover:bg-blue-500 border border-slate-200 text-slate-600 hover:text-white" href="#0">2</a>
+              <a className="inline-flex items-center justify-center leading-5 px-3.5 py-2 bg-white hover:bg-blue-500 border border-slate-200 text-slate-600 hover:text-white" href="#2">2</a>
             </li>
             <li>
-              <a className="inline-flex items-center justify-center leading-5 px-3.5 py-2 bg-white hover:bg-blue-500 border border-slate-200 text-slate-600 hover:text-white" href="#0">3</a>
+              <a className="inline-flex items-center justify-center leading-5 px-3.5 py-2 bg-white hover:bg-blue-500 border border-slate-200 text-slate-600 hover:text-white" href="#">3</a>
             </li>
             <li>
               <span className="inline-flex items-center justify-center leading-5 px-3.5 py-2 bg-white border border-slate-200 text-slate-400">…</span>
