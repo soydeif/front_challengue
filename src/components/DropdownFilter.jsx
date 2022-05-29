@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Transition from '../utils/Transition';
+import { useTranslation } from 'react-i18next';
+import Products from '../pages/Products';
 
 function DropdownFilter({
   align
@@ -10,6 +12,8 @@ function DropdownFilter({
   const trigger = useRef(null);
   const dropdown = useRef(null);
 
+  const [t,i18n]=useTranslation("global")
+  
   // close on click outside
   useEffect(() => {
     const clickHandler = ({ target }) => {
@@ -41,7 +45,7 @@ function DropdownFilter({
         aria-expanded={dropdownOpen}
       >
         <span className="sr-only">Filter</span><wbr />
-        <p>Impuestos</p>
+        {t("tagName.tax")}
       </button>
       <Transition
         show={dropdownOpen}
@@ -55,14 +59,15 @@ function DropdownFilter({
         leaveEnd="opacity-0"
       >
         <div ref={dropdown}>
-          <div className="text-xs font-semibold text-slate-400 uppercase pt-1.5 pb-2 px-4">Impuestos</div>
+          <div className="text-xs font-semibold text-slate-400 uppercase pt-1.5 pb-2 px-4">{t("tagName.tax")}</div>
           <ul className="mb-4">
             <li className="py-1 px-3">
               <label className="flex items-center">
                 <input type="checkbox" className="form-checkbox" />
-                <span className="text-sm font-medium ml-2">Direct VS Indirect</span>
+                <span className="text-sm font-medium ml-2">Tax</span>
               </label>
             </li>
+           {/*
             <li className="py-1 px-3">
               <label className="flex items-center">
                 <input type="checkbox" className="form-checkbox" />
@@ -93,14 +98,16 @@ function DropdownFilter({
                 <span className="text-sm font-medium ml-2">Total Spent</span>
               </label>
             </li>
-          </ul>
+        
+           */}
+           </ul>
           <div className="py-2 px-3 border-t border-slate-200 bg-slate-50">
             <ul className="flex items-center justify-between">
               <li>
-                <button className="btn-xs bg-white border-slate-200 hover:border-slate-300 text-slate-500 hover:text-slate-600">Borrar</button>
+                <button className="btn-xs bg-white border-slate-200 hover:border-slate-300 text-slate-500 hover:text-slate-600">{t("tagName.delete")}</button>
               </li>
               <li>
-                <button className="btn-xs bg-blue-500 hover:bg-blue-600 text-white" onClick={() => setDropdownOpen(false)} onBlur={() => setDropdownOpen(false)}>Aplicar</button>
+                <button className="btn-xs bg-blue-500 hover:bg-blue-600 text-white" onClick={() => setDropdownOpen(false)} onBlur={() => setDropdownOpen(false)}>{t("tagName.apply")}</button>
               </li>
             </ul>
           </div>

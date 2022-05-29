@@ -1,0 +1,18 @@
+{
+    "header":{
+        "catalogue":"Catalogue"
+    },
+    "subHeader":{
+        "products":"Product's"
+    },
+    "tagName":{
+        "article":"Article",
+        "price":"Price",
+        "tax":"Tax",
+        "search":"Search",
+        "delete":"Delete",
+        "apply":"Apply"
+    }
+    
+    
+}

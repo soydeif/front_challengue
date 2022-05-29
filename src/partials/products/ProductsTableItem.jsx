@@ -54,7 +54,7 @@ function ProductsTableItem(props) {
         <div className={`font-medium ${totalColor(props.status)}`}>{props.title}</div>
       </td>
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
-        <div className={`inline-flex font-medium rounded-full text-center px-2.5 py-0.5 ${statusColor(props.status)}`}>{props.stock}</div>
+        <div className={`inline-flex font-medium rounded-full text-center px-2.5 py-0.5 ${statusColor(props.stock)}`}>{props.stock}</div>
       </td >    
       <td className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
         <div className="font-medium text-slate-800">{props.tax}</div>

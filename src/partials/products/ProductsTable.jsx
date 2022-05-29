@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import PaginationNumeric from '../../components/PaginationNumeric';
 import Products from './ProductsTableItem';
+import { useTranslation } from 'react-i18next';
+import SearchForm from '../actions/SearchForm';
+import FilterButton from '../../components/DropdownFilter';
 
+const productsQuery = (pageNum=1) =>{
 
-const PRODUCTS_QUERY = `
+return `   
 {
   fetchProducts{
-   results(perPage:10,page:0){
+   results(perPage:10,page:${pageNum}){
      id
      price
      sku
@@ -14,7 +18,7 @@ const PRODUCTS_QUERY = `
      tax
      title
      }
-   pagination(perPage:10, page:0 ){
+   pagination(perPage:10, page:${pageNum}){
      firstPage
      lastPage
      currentPage
@@ -24,35 +28,71 @@ const PRODUCTS_QUERY = `
     }
    }
    
- }
-`
+ }`}
 
 
-function ProductsTable() {
-
-
-useEffect(()=>{
-  fetch('http://vps-123eb2fc.vps.ovh.net/graphql',{
-    method: 'POST',
-    headers: {'Content-Type':'application/json'},
-    body: JSON.stringify({query: PRODUCTS_QUERY})
-  }).then(response=>response.json())
-  .then(data=>setProducts(data.data.fetchProducts.results))
-  //console.log(products.replace('results','pagination'))
+function ProductsTable(props) {
   
-},[])
+  const handlePage = (pageNum) =>{
+    
+    fetch('http://vps-123eb2fc.vps.ovh.net/graphql/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ query: productsQuery(pageNum) })
+    }).then(response => response.json())
+      .then(data => {       
+        setProducts(data.data.fetchProducts.results)  
+        setPagination(data.data.fetchProducts.pagination)
+      })
+  }
 
-const [products,setProducts]=useState([]);
- 
+  useEffect(() => {
+    handlePage()
 
+  }, [])
+
+  const [products, setProducts] = useState([]);
+  const [pagination, setPagination] = useState([]);
+  const [t,i18n]=useTranslation("global")
+  const [searchTerm,setSearchTerm]= useState("");
+  const [searchResults, setSearchResults] = useState([])
+
+  const searchHandler =(searchTerm)=>{
+    setSearchTerm(searchTerm)
+   //console.log(event.target.value)
+   if(searchTerm !== ""){
+     const newResultsList= products.filter(()=>{
+       return Object.values(products)
+       .join("")
+       .toLowerCase()
+       .includes(searchTerm.toLowerCase()) 
+     });
+     setSearchResults(newResultsList)
+   }
+   else {
+    searchResults(products)
+   }
+  }
+  
+  
 
   return (
     <div className="bg-white shadow-lg rounded-sm border border-slate-200 relative">
-      <header className="px-5 py-4">
-        <h2 className="font-semibold text-slate-800">Productos <span className="text-slate-400 font-medium">67</span></h2>
+      
+      <header className="px-4 py-3 grid grid-flow-col">
+        <h2 className="font-semibold text-slate-800">{t("subHeader.products")} <span className="text-slate-400 font-medium">{pagination.totalResults}</span></h2>
+        
+        {/* Right: Actions */}
+        <div className="grid grid-flow-col sm:auto-cols-max justify-start sm:justify-end gap-2">
+          {/* Search form */}
+          <SearchForm {...props} searchKeyWord={searchHandler} term={searchTerm} />
+         
+          {/* Filter button */}
+          <FilterButton align="right" />
+        </div>
       </header>
       <div>
-
+  
         {/* Table */}
         <div className="overflow-x-auto">
           <table className="table-auto w-full">
@@ -63,45 +103,56 @@ const [products,setProducts]=useState([]);
                   <div className="font-semibold text-left">SKU</div>
                 </th>
                 <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
-                  <div className="font-semibold text-left">Articulo</div>
+                  <div className="font-semibold text-left">{t("tagName.article")}</div>
                 </th>
                 <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap ">
                   <div className="font-semibold text-left">Stock</div>
                 </th>
                 <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
-                  <div className="font-semibold text-left ">Impuesto</div>
+                  <div className="font-semibold text-left ">{t("tagName.tax")}</div>
                 </th>
                 <th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
-                  <div className="font-semibold text-left">Precio</div>
+                  <div className="font-semibold text-left">{t("tagName.price")}</div>
                 </th>
-              
+
               </tr>
             </thead>
             {/* Table body */}
+            
             <tbody className="text-sm divide-y divide-slate-200">
-              {
-                
-                products.map(product => {
-                  return (
-                    <Products
-                      key={product.sku}
-                      sku={product.sku}
-                      title={product.title}
-                      stock={product.stock}
-                      tax={product.tax}
-                      price={product.price}
-                    />
-                  )
-                })
-              }
-              
+              { 
+              products.map((product)=>{
+                <Products                                  
+                key={product.sku}                               
+                sku={product.sku}
+                title={product.title}
+                stock={product.stock}
+                tax={product.tax}
+                price={product.price}
+                />})}
+                                                                      
+
             </tbody>
           </table>
 
         </div>
+
+      </div>
+      {/* Pagination */}
+      <div className="mt-8">
+        <PaginationNumeric 
+          nextPage={pagination.nextPage}
+          handlePage={handlePage}
+          prevPage={pagination.prevPage} 
+          totalResults={pagination.totalResults} 
+          lastPage={pagination.lastPage}
+          currentPage={pagination.currentPage}
+          firstPage={pagination.firstPage}
+        />
       </div>
     </div>
   );
+
 }
 
 export default ProductsTable;

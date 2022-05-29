@@ -4,7 +4,6 @@ import {
   Route,
   useLocation
 } from 'react-router-dom';
-
 import './css/style.scss';
 
 // Import pages
@@ -12,7 +11,7 @@ import Products from './pages/Products';
 import PageNotFound from './pages/utility/PageNotFound';
 
 function App() {
-
+  
   const location = useLocation();
 
   useEffect(() => {
@@ -21,11 +20,11 @@ function App() {
     document.querySelector('html').style.scrollBehavior = ''
   }, [location.pathname]); // triggered on route change
 
+  
   return (
     <>
       <Routes>
         <Route exact path="/" element={<Products />} />
-        
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </>

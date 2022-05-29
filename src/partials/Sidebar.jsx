@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-
+import Header from './Header'
 function Sidebar({
   sidebarOpen,
   setSidebarOpen
@@ -93,7 +93,7 @@ function Sidebar({
               <span className="hidden lg:block lg:sidebar-expanded:hidden 2xl:hidden text-center w-6" aria-hidden="true">
                 VENPED
               </span>
-              <span className="lg:hidden lg:sidebar-expanded:block 2xl:block text-gray-300 mt-4">APP VENPED</span>
+              <span className="lg:hidden lg:sidebar-expanded:block 2xl:block text-gray-300 mt-4"></span>
             </h3>
             <ul className="mt-3">
 
@@ -124,7 +124,7 @@ function Sidebar({
                               />
                     </svg>
                     <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                      Catálogo
+                      APP VENPED
                     </span>
                   </div>
                 </NavLink>
