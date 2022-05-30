@@ -1,11 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Transition from '../utils/Transition';
 import { useTranslation } from 'react-i18next';
-import Products from '../pages/Products';
 
-function DropdownFilter({
-  align
-}) {
+function DropdownFilter({align, taxes, setFilteredTaxes, filteredTaxes}) {
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
@@ -34,6 +31,21 @@ function DropdownFilter({
     document.addEventListener('keydown', keyHandler);
     return () => document.removeEventListener('keydown', keyHandler);
   });
+  
+
+const handleSelection=(e)=>{
+  let newSelection = [...filteredTaxes]
+  if(newSelection.includes(e.target.value)){
+  setFilteredTaxes(newSelection.filter(selection=>{
+    return selection !== e.target.value
+  }))} else {
+    newSelection.push(e.target.value)
+    setFilteredTaxes(newSelection)
+  }
+
+
+  
+}
 
   return (
     <div className="relative inline-flex">
@@ -61,12 +73,15 @@ function DropdownFilter({
         <div ref={dropdown}>
           <div className="text-xs font-semibold text-slate-400 uppercase pt-1.5 pb-2 px-4">{t("tagName.tax")}</div>
           <ul className="mb-4">
-            <li className="py-1 px-3">
+           {taxes.map((tax,key)=>{
+             return(
+              <li className="py-1 px-3" key={key}>
               <label className="flex items-center">
-                <input type="checkbox" className="form-checkbox" />
-                <span className="text-sm font-medium ml-2">Tax</span>
+                <input type="checkbox" className="form-checkbox" onChange={(e)=>handleSelection(e)} value={tax}/>
+                <span className="text-sm font-medium ml-2">{tax}</span>
               </label>
-            </li>
+            </li>)
+           })}
            {/*
             <li className="py-1 px-3">
               <label className="flex items-center">

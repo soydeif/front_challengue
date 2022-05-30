@@ -31,7 +31,7 @@ return `
  }`}
 
 
-function ProductsTable(props) {
+function ProductsTable() {
   
   const handlePage = (pageNum) =>{
     
@@ -42,6 +42,13 @@ function ProductsTable(props) {
     }).then(response => response.json())
       .then(data => {       
         setProducts(data.data.fetchProducts.results)  
+        let tagTaxes = []
+        data.data.fetchProducts.results.map(result=>{
+          if (!tagTaxes.includes(result.tax)){
+            tagTaxes.push(result.tax)
+          }
+        })
+        setTaxes(tagTaxes)
         setPagination(data.data.fetchProducts.pagination)
       })
   }
@@ -54,26 +61,51 @@ function ProductsTable(props) {
   const [products, setProducts] = useState([]);
   const [pagination, setPagination] = useState([]);
   const [t,i18n]=useTranslation("global")
+  const [taxes, setTaxes] = useState([])
+  const [filteredTaxes, setFilteredTaxes] = useState([])
   const [searchTerm,setSearchTerm]= useState("");
   const [searchResults, setSearchResults] = useState([])
 
-  const searchHandler =(searchTerm)=>{
-    setSearchTerm(searchTerm)
-   //console.log(event.target.value)
+   useEffect(() => {
+    //console.log(event.target.value)
    if(searchTerm !== ""){
-     const newResultsList= products.filter(()=>{
-       return Object.values(products)
-       .join("")
-       .toLowerCase()
-       .includes(searchTerm.toLowerCase()) 
-     });
-     setSearchResults(newResultsList)
-   }
-   else {
-    searchResults(products)
-   }
+    const newResultsList= products.filter((product)=>{
+      return(product.sku.includes(searchTerm.toLowerCase()) || product.title.toLowerCase().includes(searchTerm.toLowerCase())) 
+    });
+    setSearchResults(newResultsList)
+  }
+  else {
+   setSearchResults(products)
+  } 
+  
+   
+  }, [searchTerm])
+  
+
+//logica para render busqueda  
+  const searchHandler =(resultTerm)=>{
+    setSearchTerm(resultTerm)
+    
   }
   
+  //////logica de filtrado
+
+  useEffect(() => {
+    
+   if(filteredTaxes !== []){
+    const newResultsList= products.filter((product)=>{
+      console.log(filteredTaxes.includes(product.tax))
+      return(filteredTaxes.includes(product.tax) ) 
+      
+    });
+    setSearchResults(newResultsList)
+  }
+  else {
+   setSearchResults(products)
+  } 
+  
+   
+  }, [filteredTaxes])
   
 
   return (
@@ -85,10 +117,10 @@ function ProductsTable(props) {
         {/* Right: Actions */}
         <div className="grid grid-flow-col sm:auto-cols-max justify-start sm:justify-end gap-2">
           {/* Search form */}
-          <SearchForm {...props} searchKeyWord={searchHandler} term={searchTerm} />
+          <SearchForm  searchKeyWord={searchHandler} term={searchTerm} /> 
          
           {/* Filter button */}
-          <FilterButton align="right" />
+          <FilterButton taxes={taxes} setFilteredTaxes={setFilteredTaxes} filteredTaxes={filteredTaxes} align="right" />
         </div>
       </header>
       <div>
@@ -120,16 +152,25 @@ function ProductsTable(props) {
             {/* Table body */}
             
             <tbody className="text-sm divide-y divide-slate-200">
-              { 
-              products.map((product)=>{
-                <Products                                  
+              { searchResults.length ==0 ? products.map((product)=>{
+                return(
+                <Products                             
                 key={product.sku}                               
                 sku={product.sku}
                 title={product.title}
                 stock={product.stock}
                 tax={product.tax}
                 price={product.price}
-                />})}
+                />)}) : searchResults.map((product)=>{
+                return(
+                <Products                             
+                key={product.sku}                               
+                sku={product.sku}
+                title={product.title}
+                stock={product.stock}
+                tax={product.tax}
+                price={product.price}
+                />)})}
                                                                       
 
             </tbody>
