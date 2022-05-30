@@ -13,7 +13,7 @@ function PaginationNumeric(props) {
           <span className="read-only:bg-gray-100 inline-flex items-center justify-center rounded-l leading-5 px-3.5 py-2 bg-white border border-slate-200 text-blue-500">...</span>
         </li> 
         <li onClick={(e) => { (handlePage(totalResults) )}}>
-          <span className="inline-flex items-center justify-center rounded-l leading-5 px-3.5 py-2 bg-white hover:bg-blue-500 border border-slate-200 text-slate-600 hover:text-white shadow-sm">{totalResults}</span>
+          <span className="inline-flex items-center justify-center rounded-l leading-5 px-3.5 py-2 bg-white hover:bg-blue-500 border border-slate-200 text-slate-600 hover:text-white shadow-sm">{Math.round(totalResults/10)}</span>
         </li>
       </>
     )
